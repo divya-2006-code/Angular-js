@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Full Student Registration Form - AngularJS</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+   <style>
+        .error { color: red; font-size: 0.9em; }
+        .form-box {
+		background-color: pink; 
+		padding: 20px; 
+		width: 400px; 
+		border: 3px solid blue; }
+    </style>
+</style>
+
+</head>
+<body style="background-color: beige;">
+<h2 style= "color: green;">Student Registration Form</h2>
+
+<div ng-app="studentApp" ng-controller="formCtrl" class="form-box">
+    <form name="regForm" novalidate>
+
+        <!-- Full Name -->
+        Full Name:<br>
+        <input type="text" name="fullName" ng-model="student.fullName" required ng-minlength="3" /><br>
+        <span class="error" ng-show="regForm.fullName.$touched && regForm.fullName.$invalid">
+            <span ng-show="regForm.fullName.$error.required">Full Name is required.</span>
+            <span ng-show="regForm.fullName.$error.minlength">Min 3 characters required.</span>
+        </span><br>
+
+        <!-- Email Address -->
+        Email Address:<br>
+        <input type="email" name="email" ng-model="student.email" required /><br>
+        <span class="error" ng-show="regForm.email.$touched && regForm.email.$invalid">
+            <span ng-show="regForm.email.$error.required">Email is required.</span>
+            <span ng-show="regForm.email.$error.email">Invalid email format.</span>
+        </span><br>
+
+        <!-- Password -->
+        Password:<br>
+        <input type="password" name="password" ng-model="student.password" required ng-minlength="6" /><br>
+        <span class="error" ng-show="regForm.password.$touched && regForm.password.$invalid">
+            <span ng-show="regForm.password.$error.required">Password is required.</span>
+            <span ng-show="regForm.password.$error.minlength">Min 6 characters required.</span>
+        </span><br>
+
+        <!-- Confirm Password -->
+        Confirm Password:<br>
+        <input type="password" name="confirmPassword" ng-model="student.confirmPassword" required /><br>
+        <span class="error" ng-show="regForm.confirmPassword.$touched && student.confirmPassword !== student.password">
+            Passwords do not match.
+        </span><br>
+
+        <!-- Gender -->
+        Gender:<br>
+        <select name="gender" ng-model="student.gender" required>
+            <option value="">--Select Gender--</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select><br>
+        <span class="error" ng-show="regForm.gender.$touched && regForm.gender.$error.required">Gender is required.</span><br>
+
+        <!-- Date of Birth -->
+        Date of Birth:<br>
+        <input type="date" name="dob" ng-model="student.dob" required /><br>
+        <span class="error" ng-show="regForm.dob.$touched && regForm.dob.$error.required">DOB is required.</span><br>
+
+        <!-- Phone Number -->
+        Phone Number:<br>
+        <input type="text" name="phone" ng-model="student.phone" required ng-pattern="/^[0-9]{10}$/" /><br>
+        <span class="error" ng-show="regForm.phone.$touched && regForm.phone.$invalid">
+            <span ng-show="regForm.phone.$error.required">Phone is required.</span>
+            <span ng-show="regForm.phone.$error.pattern">Enter valid 10-digit phone number.</span>
+        </span><br>
+
+        <!-- Address -->
+        Address:<br>
+        <textarea name="address" ng-model="student.address" required></textarea><br>
+        <span class="error" ng-show="regForm.address.$touched && regForm.address.$error.required">Address is required.</span><br>
+
+        <!-- Courses Interested -->
+        Courses Interested:<br>
+        <input type="checkbox" ng-model="student.courseHTML"> HTML<br>
+        <input type="checkbox" ng-model="student.courseCSS"> CSS<br>
+        <input type="checkbox" ng-model="student.courseJS"> JavaScript<br>
+        <input type="checkbox" ng-model="student.courseAngular"> Angular<br><br>
+
+        <!-- Profile Picture -->
+        Profile Picture:<br>
+        <input type="file" file-model="student.profilePic" /><br><br>
+
+        <!-- Terms and Conditions -->
+        <input type="checkbox" name="terms" ng-model="student.terms" required /> I accept Terms & Conditions<br>
+        <span class="error" ng-show="regForm.terms.$touched && regForm.terms.$error.required">
+            You must accept Terms & Conditions.
+        </span><br><br>
+
+        <!-- Buttons -->
+        <button type="button" ng-click="submitForm()" ng-disabled="regForm.$invalid">Submit</button>
+        <button type="button" ng-click="resetForm()">Reset</button>
+
+    </form>
+
+    
+
+    <!-- Display Submitted Data -->
+    <div ng-if="submitted">
+        <h3>Submitted Data:</h3>
+        <p><b>Full Name:</b> {{student.fullName}}</p>
+        <p><b>Email:</b> {{student.email}}</p>
+        <p><b>Gender:</b> {{student.gender}}</p>
+        <p><b>Date of Birth:</b> {{student.dob}}</p>
+        <p><b>Phone:</b> {{student.phone}}</p>
+        <p><b>Address:</b> {{student.address}}</p>
+        <p><b>Courses:</b>
+            <span ng-if="student.courseHTML"> HTML </span>
+            <span ng-if="student.courseCSS"> CSS </span>
+            <span ng-if="student.courseJS"> JavaScript </span>
+            <span ng-if="student.courseAngular"> Angular </span>
+        </p>
+    </div>
+</div>
+
+<script>
+    var app = angular.module("studentApp", []);
+
+    app.controller("formCtrl", function($scope) {
+        $scope.student = {};
+        $scope.submitted = false;
+
+        $scope.submitForm = function() {
+            if ($scope.regForm.$valid && $scope.student.password === $scope.student.confirmPassword) {
+                $scope.submitted = true;
+                console.log("Form Submitted", $scope.student);
+                alert("Form submitted successfully!");
+            } else {
+                $scope.submitted = false;
+                alert("Please correct errors before submitting.");
+            }
+        };
+
+        $scope.resetForm = function() {
+            $scope.student = {};
+            $scope.submitted = false;
+            $scope.regForm.$setPristine();
+            $scope.regForm.$setUntouched();
+        };
+    });
+
+    // Basic file-model directive
+    app.directive('fileModel', ['$parse', function($parse) {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+                var model = $parse(attrs.fileModel);
+                var modelSetter = model.assign;
+
+                element.bind('change', function() {
+                    scope.$apply(function() {
+                        modelSetter(scope, element[0].files[0]);
+                    });
+                });
+            }
+        };
+    }]);
+</script>
+
+</body>
+</html>

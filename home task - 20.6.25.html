@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Score Result - AngularJS</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+</head>
+<body style="background-color: Orange; font-family: Arial; padding: 20px;">
+    <div ng-app="gradeApp" ng-controller="gradeCtrl">
+        <h2 style="color: #2e8b57;">Student Score Result Checker</h2>
+        <label for="nameInput">Enter Student Name: </label>
+        <input type="text" id="nameInput" ng-model="studentName" placeholder="Enter name here" style="padding: 5px;">   
+        <br><br>
+        <label for="scoreInput">Enter your score (0 - 100): </label>
+        <input type="number" id="scoreInput" ng-model="score" placeholder="Enter score here" style="padding: 5px;">        
+        <br><br>
+        <div ng-if="studentName && score >= 0 && score <= 100" 
+             style="border: 2px solid #2e8b57; border-radius: 10px; padding: 15px; background-color: #fffacd; max-width: 400px;">
+            <p><strong>Your Score:</strong> {{score}}</p>
+            <p ng-if="score >= 90" style="font-weight:bold; color: green;">
+                {{studentName}}, Excellent performance! 🏆
+            </p>
+            <p ng-if="score >= 75 && score < 90" style="font-weight:bold; color: blue;">
+                {{studentName}}, Very good! 🎉 Keep it up!
+            </p>
+            <p ng-if="score >= 60 && score < 75" style="font-weight:bold; color: orange;">
+                {{studentName}}, Good effort! 👍
+            </p>
+            <p ng-if="score >= 40 && score < 60" style="font-weight:bold; color: brown;">
+                {{studentName}}, You passed. 😊 Try to improve.
+            </p>
+            <p ng-if="score < 40" style="font-weight:bold; color: red;">
+                {{studentName}}, You need to work harder! 😢
+            </p>
+        </div>
+        <div ng-if="score < 0 || score > 100" style="color: red; font-weight: bold;">
+            Please enter a valid score between 0 and 100.
+        </div>
+    </div>
+    <script>
+        var app = angular.module('gradeApp', []);
+        app.controller('gradeCtrl', function($scope) {
+            $scope.score = null;           // Initialize score
+            $scope.studentName = "";       // Initialize name
+        });
+    </script>
+</body>
+</html>

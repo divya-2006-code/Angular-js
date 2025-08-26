@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>$http , $timeout, $interval Example</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+</head>
+<body style="background-color: pink;" ng-app="app1" ng-controller="c1">
+    <h2>User List</h2>
+	<p style="color: darkblue;"><strong>Current Time: </strong>{{ currentTime}}</p>
+    <button ng-click="fetchUsers()">Load users</button>
+    <ul>
+        <li ng-repeat="u in users">{{u.name}} -- {{u.email}}</li>
+    </ul>
+
+    <h2>To add new user</h2>
+    <input type="text" ng-model="newUser.name" placeholder="Enter user name">
+    <input type="email" ng-model="newUser.email" placeholder="Enter E-mail">
+    <button ng-click="addUser()">Add User</button>
+
+    <p style="color:green;" ng-if="successMessage">{{successMessage}}</p>
+    <p style="color:red;" ng-if="errorMessage">{{errorMessage}}</p>
+
+    <script>
+        var app = angular.module("app1", []);
+        app.controller("c1", function($scope, $http,$interval) {
+            $scope.users = [];
+            $scope.newUser = {};
+            $scope.successMessage = "";
+            $scope.errorMessage = "";
+			$scope.currentTime=new Date().toLocaleTimeString();
+			//to set timer
+			$interval(function () {
+    $scope.currentTime = new Date().toLocaleTimeString();
+}, 1000);
+
+
+            $scope.fetchUsers = function() {
+                $http.get('https://jsonplaceholder.typicode.com/users')
+                    .then(function(response) {
+                        $scope.users = response.data;
+                        $scope.successMessage = "Data is loaded successfully";
+                        $scope.errorMessage = "";
+                    }, function(error) {
+                        $scope.errorMessage = "Failed to load user data!!!";
+                        $scope.successMessage = "";
+                    });
+            };
+
+            // To add new user
+            $scope.addUser = function() {
+                $http.post('https://jsonplaceholder.typicode.com/users', $scope.newUser)
+                    .then(function(response) {
+                        $scope.successMessage = "New user added!!!! " + response.data.name;
+                        $scope.users.push(response.data);
+                        $scope.newUser = {};
+                        $scope.errorMessage = "";
+                    }, function(error) {
+                        $scope.errorMessage = "Failed to add new user data!!!!";
+                        $scope.successMessage = "";
+                        console.error(error);
+                    });
+            };
+        });
+    </script>
+</body>
+</html>

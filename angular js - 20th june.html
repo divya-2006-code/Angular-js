@@ -1,0 +1,78 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Filters </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+</head>
+<body style="background-color : Orange;">
+    <div style="background-color : pink;" ng-app="app1" ng-controller="c2" ng-init="price=250; name='filters'">
+        <p style="color: red;">{{ price | currency : '💵' }}</p>
+        <p style="color: blue;">{{ name | uppercase }}</p>
+        <p style="color: green;">{{ today | date: 'fullDate' }}</p>
+    </div>
+    <script>
+        var app = angular.module("app1", []);
+        app.controller("c2", function($scope) {
+            $scope.today = new Date();
+        });
+    </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Filters </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+</head>
+<body ng-app="" ng-init="isVisible=true" style="background-color : Orange;">
+    <button ng-click="isVisible = !isVisible">
+        Click to toggle
+    </button>
+    <p ng-hide="isVisible" style="color: blue;">Show works when it is set true</p>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Filters </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+</head>
+<body  style="background-color : Orange;">
+    <div ng-app="app1" ng-controller="c1" style="background-color: lightblue;">
+	    <div ng-if="displayMessage" style="background-color: yellow;">
+		    It shows only when it is true.
+            Also, it removes the element from the DOM when false.			
+		</div>
+	</div>
+	<script>
+	            angular.module("app1", [] ).controller("c1" , function ($scope)
+				{
+				        $scope.displayMessage = true ; //false -  nothing will be visible.
+						});
+	</script>
+</body>
+</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Filters </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+</head>
+<body ng-app ng-init="role=guest" style="background-color : Orange;">
+<label>Select role : </label>
+<select ng-model = "role">
+                <option value = "admin"> Admin </option>
+				<option value = "user"> User </option>
+				<option value = "guest"> Guest </option>
+</select>
+<div  ng-switch ="role">
+                <p ng-switch-when = "admin" > Hello, Admin! </p>
+				<p ng-switch-when = "user" > Hello, User! </p>
+				<p ng-switch-default> Welcome , Guest! </p>
+</div>
+
+</body>
+</html>

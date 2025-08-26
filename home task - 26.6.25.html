@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html ng-app="app1">
+<head>
+  <title>Student Result Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Work Sans &display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <style>
+    body {
+      background-color: #e0f7fa; 
+      font-family: 'Work Sans ', sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #006064;
+    }
+    button {
+      padding: 10px 15px;
+      margin-top: 20px;
+      background-color: #00838f;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      margin: 20px auto;
+      padding: 15px;
+      width: 65%;
+      border-bottom: 1px solid #ccc;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
+      background-color: white;
+      transition: background-color 0.3s ease;
+    }
+    .passed {
+      background-color: #dcedc8;
+      color: #33691e;
+      font-weight: bold;
+    }
+    .failed {
+      background-color: #ffcdd2; 
+      color: #b71c1c;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body ng-controller="c1">
+
+  <h1>Student Result Dashboard</h1>
+  <hr>
+
+  
+  <ul>
+    <li ng-repeat="s in students | result:showPassedOnly"
+        ng-class="s.totalMarks > 40 ? 'passed' : 'failed'">
+      {{ s.name }} ({{ s.department }}) - Marks: {{ s.totalMarks }}
+    </li>
+  </ul>
+  
+  
+  <button ng-click="toggle()">
+    {{ showPassedOnly ? 'Show All Students' : 'Show Only Passed Students' }}
+  </button>
+
+  <script>
+    var app = angular.module('app1', []);
+
+    
+    app.filter('result', function() {
+      return function(students, showPassedOnly) {
+        if (!showPassedOnly) return students;
+        return students.filter(function(student) {
+          return student.totalMarks > 40;
+        });
+      };
+    });
+
+    
+    app.controller('c1', function($scope) {
+      $scope.students = [
+        { name: "Lavanya", department: "Computer Science", totalMarks: 82 },
+        { name: "Manoj", department: "Mechanical", totalMarks: 39 },
+        { name: "Neha", department: "Civil", totalMarks: 66 },
+        { name: "Ravi", department: "Economics", totalMarks: 29 },
+        { name: "Jeevitha", department: "Electronics", totalMarks: 88 },
+		 { name: "Arun", department: "Physics", totalMarks: 35 }
+      ];
+
+      $scope.showPassedOnly = false;
+
+      $scope.toggle = function() {
+        $scope.showPassedOnly = !$scope.showPassedOnly;
+      };
+    });
+  </script>
+
+</body>
+</html>

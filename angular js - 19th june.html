@@ -1,0 +1,60 @@
+<!--<!DOCTYPE html>
+<html lang="en" ng-app>
+<head>
+    <title> List with Angular JS </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+</head>
+<body style="background-color : violet;">
+    <h2> Lists examples using Angular JS </h2>
+    <div ng-init="BeautyProducts=['Lakme Matte Lipstick', 'Kajal', 'Maybeline Eyeliner', 'Garnier Facewash', 'Vicco Turmeric']">
+        <ul>
+            <li ng-repeat="bp in BeautyProducts">{{$index+1}} - {{bp}}</li>
+        </ul>
+		        <p style="Background-color: pink;"> Total items in the list are : {{BeautyProducts.length}} </p>
+    </div>
+</body>
+</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Marks Calculator - AngularJS</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+</head>
+<body style="background-color: Aqua;">
+
+    <div style="background-color: tomato; padding: 15px;" ng-app="app1" ng-controller="c1">
+        Roll No: <input type="text" ng-model="rollNo"><br><br>
+
+        Subject 1 Marks: <input type="number" ng-model="sub1"><br><br>
+        Subject 2 Marks: <input type="number" ng-model="sub2"><br><br>
+        Subject 3 Marks: <input type="number" ng-model="sub3"><br><br>
+
+        Total Marks: {{getTotal()}}<br><br>
+        Average Marks: {{getAverage()}}
+    </div>
+
+    <script>
+        var app = angular.module("app1", []); // create module
+
+        app.controller("c1", function($scope) {
+            // Initialize values
+            $scope.rollNo = "";
+            $scope.sub1 = 0;
+            $scope.sub2 = 0;
+            $scope.sub3 = 0;
+
+            // Function to calculate total
+            $scope.getTotal = function() {
+                return ($scope.sub1) + ($scope.sub2) + ($scope.sub3);
+            };
+
+            // Function to calculate average
+            $scope.getAverage = function() {
+                return $scope.getTotal() / 3;
+            };
+        });
+    </script>
+
+</body>
+</html>

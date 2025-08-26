@@ -1,0 +1,173 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Filters</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+</head>
+<body>
+<div ng-app="">
+        <form>
+		        tick to view content<input type="radio"  ng-model="ch1">
+		</form>
+<p ng-show="ch1"> check box example using form </p>
+</div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Filters</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+</head>
+<body>
+<div ng-app="" style="background-color: beige;">
+        <form>
+                select any choice		
+		       <input type="radio" value="e1" ng-model="ch1">
+			    <input type="radio" value="e2" ng-model="ch1">
+				 <input type="radio" value="e3" ng-model="ch1">
+		</form>
+		<div style="background-color: pink;" ng-switch="ch1">
+		        <div style="background-color: yellow;" ng-switch-when="e1">
+				        <h1> You have selected option 1 </h1>
+				</div>
+				<div style="background-color: violet;" ng-switch-when="e2">
+				        <h1> You have selected option 2 </h1>
+				</div>
+				<div style="background-color: lightgreen;" ng-switch-when="e3">
+				        <h1> You have selected option 3 </h1>
+				</div>
+		</div>				
+</div>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Filters</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="app1" ng-controller="c1">
+        <form name="f1" novalidate>
+            First Name : <br>
+            <input name="firstName" type="text" ng-model="user.firstName" ng-required="true" ng-minlength="4" ng-pattern="/^[A-Za-z]+$/"><br>
+
+            <span style="color: red;" ng-show="f1.firstName.$touched && f1.firstName.$invalid">
+                <span ng-show="f1.firstName.$error.required">First name is required</span>
+                <span ng-show="f1.firstName.$error.minlength">Minimum length is exceeded</span>              
+                <span ng-show="f1.firstName.$error.pattern">Only alphabets are allowed</span>
+
+            </span>	
+
+            <br>Last Name : <br>
+            <input type="text" ng-model="user.lastName"><br>
+            <br><br>
+            <button type="button" ng-click="reset()">Reset</button>
+        </form>
+
+        <p style="background-color: violet;">Form data = {{user}}</p>
+        <p style="background-color: yellow;">Default data = {{master}}</p>
+    </div>
+
+    <script>
+        var app = angular.module("app1", []);
+        app.controller("c1", function($scope) {
+            $scope.master = { firstName: "Divya", lastName: "Saravanan" };
+
+            $scope.reset = function() {
+                $scope.user = angular.copy($scope.master);
+                if ($scope.f1) {
+                    $scope.f1.$setPristine();
+                    $scope.f1.$setUntouched();
+                }
+            };
+
+            $scope.reset();
+        });
+    </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Filters</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+</head>
+<body>
+    <h2>Validation Example</h2>
+    <form ng-app="app1" ng-controller="c1" name="f1" novalidate>
+        Username : <br>
+        <input type="text" name="userName" ng-model="uName" required>
+        <span style="color: red;" ng-show="f1.userName.$dirty && f1.userName.$invalid">
+            <span ng-show="f1.userName.$error.required">Username is required</span>
+        </span><br><br>
+
+        Email : <br>
+        <input type="email" name="email" ng-model="eMail" required>
+        <span style="color: red;" ng-show="f1.email.$dirty && f1.email.$invalid">
+            <span ng-show="f1.email.$error.required">Email is required</span>
+            <span ng-show="f1.email.$error.email">Invalid email address</span>
+        </span><br><br>
+        <input type="submit" ng-disabled="f1.userName.$dirty && f1.userName.$invalid || f1.email.$dirty && f1.email.$invalid">
+    </form>
+    <script>
+        angular.module("app1", []).controller("c1", function($scope) {
+            $scope.uName = "Divya";
+            $scope.eMail = "divya@gmail.com";
+        });
+    </script>
+</body>
+</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Filters</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+</head>
+<body>
+    <h2>Advance Directives</h2>
+    <div style="background-color: lightgreen;" ng-app="app1" ng-controller="c1">
+        Name: <br>
+        <input type="text" ng-model="name" />
+        <p><b>From the controller:</b> {{display()}}</p>
+
+        <button type="button" onclick="externalChange()">Change Name Externally</button>
+        <p style="color: orange;">It is displayed in the console</p>
+    </div>
+
+    <script>
+        var app = angular.module("app1", []);
+        app.controller("c1", function ($scope) {
+            $scope.name = "Divya";
+
+            $scope.display = function () {
+                return "Hi " + $scope.name + " !!!!!!!!";
+            };
+
+            $scope.$watch('name', function (newValue, oldValue) {
+                if (newValue !== oldValue) {
+                    console.log("Name is changed to " + newValue);
+                }
+            });
+
+            window.externalChange = function () {
+                var name1 = prompt("Enter a new name:");
+                if (name1) {
+                    $scope.$apply(function () {
+                        $scope.name = name1;
+                    });
+                }
+            };
+        });
+    </script>
+</body>
+</html>

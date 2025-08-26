@@ -1,0 +1,119 @@
+<!--<!DOCTYPE html>
+<html>
+<head>
+  <title>Angular filters</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+<body style="background-color: CornflowerBlue;">
+            <div ng-app="app1" ng-controller="c1">
+			    <ul>
+				        <li ng-repeat = "sd in student_details|orderBy:'-name'">
+						        {{sd.name}} = {{sd.marks}}
+						</li>
+				</ul>
+			</div>
+	    <script>
+		            var app=angular.module("app1" , []);
+					app.controller("c1" , function ($scope)
+					{
+					        $scope.student_details = [{name : "Anitha" , marks : 90} , 
+							    {name : "Charu" , marks : 88},
+								{name : "Diya" , marks : 91} ,
+								{name : "Lathisha" , marks : 81}];
+					});
+		</script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Angular filters</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+<body style="background-color:DeepSkyBlue;">
+            <div ng-app="app1" ng-controller="c1">
+			        Original string : <p style="color: red;" > {{name}} </p><br><br>
+					Reversed string : <p style="color: green;"> {{name|reverse}} </p>
+			</div>
+			<script>
+			        var app = angular.module("app1" , []);
+					app.controller("c1" , function ($scope)
+					{
+					        $scope.name = "Diya" ; 
+					});
+					app.filter ('revrese' , function ()
+					{
+					            return function (input)
+								{
+                                    return input.split('').reverse().join('');
+
+								};
+					});
+			</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Angular filters</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+<body style="background-color:DeepSkyBlue;">
+            <div ng-app="app1" ng-controller="c1">
+			        Original string : <p style="color: red;" > {{name}} </p><br><br>
+					Reversed string : <p style="color: green;"> {{name|capitalizeFirst}} </p>
+			</div>
+			<script>
+			        var app = angular.module("app1" , []);
+					app.controller("c1" , function ($scope)
+					{
+					        $scope.name = "diya" ; 
+					});
+					app.filter ('capitalizeFirst' , function ()
+					{
+					            return function (input)
+								{
+                                    return input.charAt(0).toUpperCase() + input.slice(1);
+
+								};
+					});
+			</script>
+</body>
+</html>-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Angular filters</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+<body style="background-color:DeepSkyBlue;">
+            <div ng-app="app1" ng-controller="c1">
+			        Original string : <p style="color: red;" > {{name}} </p><br><br>
+					Reversed string : <p style="color: green;"> {{name|removeVowels}} </p>
+			</div>
+			<script>
+			        var app = angular.module("app1" , []);
+					app.controller("c1" , function ($scope)
+					{
+					        $scope.name = "Anitha" ; 
+					});
+					app.filter ('removeVowels' , function ()
+					{
+					            return function (input)
+								{
+                                    return input.replace(/[aeiouAEIOU]/g ,' ');
+
+								};
+					});
+			</script>
+</body>
+</html>
+
+
+
+
+
+
+

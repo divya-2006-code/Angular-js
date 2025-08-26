@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html ng-app="skincareApp">
+<head>
+  <meta charset="utf-8">
+  <title>Skincare Product Dashboard</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <style>
+    body { 
+      padding: 20px; 
+      background-color: #fff0f5; /* light pink */
+      font-family: Arial, sans-serif;
+    }
+    .card { 
+      padding: 20px; 
+      background-color: #fff; 
+      border-radius: 8px;
+      width: 320px;
+      margin: 10px auto;
+      text-align: center; 
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .loading { 
+      font-size: 18px; 
+      color: #888;
+      text-align: center;
+    }
+  </style>
+</head>
+<body ng-controller="ProductController">
+  <h2 style="color: RoyalBlue; text-align: center;">Skincare Products</h2>
+  <div style="color: SkyBlue;" class="product-box" id="box1">
+  
+  <div ng-if="loading" class="loading">Loading products...</div>
+
+  <div ng-if="!loading">
+    <div ng-repeat="product in products" class="card">
+      <p style="color: blue;"><strong>Product:</strong> {{product.name}}</p>
+      <p style="color: Fuchsia;"><strong>Brand:</strong> {{product.brand}}</p>
+      <p style="color: LightSeaGreen;"><strong>Skin Type:</strong> {{product.skinType}}</p>
+      <p style="color: PaleVioletRed;"><strong>Price:</strong> ₹ {{product.price}}</p>
+    </div>
+
+    <p style="color: red;" "text-align: center; font-size: small;">Last updated: {{lastUpdated | date:'mediumTime'}}</p>
+  </div>
+
+  <script>
+    var app = angular.module('skincareApp', []);
+
+    app.controller('ProductController', function($scope, $http, $timeout, $interval) {
+      const apiUrl = "https://mocki.io/v1/e03e22c2-ecef-4814-957c-015f2bccf674"; // Replace with your mocki.io URL
+      
+      $scope.products = [];
+      $scope.loading = true;
+      $scope.lastUpdated = new Date();
+
+      function fetchProducts() {
+        $scope.loading = true;
+        $http.get(apiUrl).then(function(response) {
+          $timeout(function() {
+            $scope.products = response.data.products;
+            $scope.lastUpdated = new Date();
+            $scope.loading = false;
+          }, 2000); // Wait 2 seconds
+        }, function(error) {
+          $scope.loading = false;
+          alert("Error fetching product data.");
+        });
+      } 
+      fetchProducts();
+    
+      $interval(fetchProducts, 30000);
+    });
+  </script>
+
+</body>
+</html>
